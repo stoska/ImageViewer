@@ -10,6 +10,14 @@ import UIKit
 import AVFoundation
 
 open class GalleryViewController: UIPageViewController, ItemControllerDelegate {
+    
+    //Status Bar
+    open override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    open override var prefersStatusBarHidden: Bool {
+        return statusBarHidden
+    }
 
     // UI
     fileprivate let overlayView = BlurView()
@@ -166,10 +174,9 @@ open class GalleryViewController: UIPageViewController, ItemControllerDelegate {
         }
 
         ///This less known/used presentation style option allows the contents of parent view controller presenting the gallery to "bleed through" the blurView. Otherwise we would see only black color.
+        self.modalPresentationCapturesStatusBarAppearance = true
         self.modalPresentationStyle = .overFullScreen
         self.dataSource = pagingDataSource
-
-        UIApplication.applicationWindow.windowLevel = (statusBarHidden) ? UIWindow.Level.statusBar + 1 : UIWindow.Level.normal
 
         NotificationCenter.default.addObserver(self, selector: #selector(GalleryViewController.rotate), name: UIDevice.orientationDidChangeNotification, object: nil)
 
